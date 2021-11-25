@@ -1,0 +1,72 @@
+{
+  "name": "hello-fastify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "prepare": "simple-git-hooks",
+    "start": "ts-node -r tsconfig-paths/register --project ./tsconfig.server.json src/server.ts",
+    "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --project ./tsconfig.server.json src/server.ts",
+    "build": "run-s build:*",
+    "build:clean": "rimraf dist",
+    "build:typecheck": "npm run typecheck:server",
+    "build:server": "tsc -p tsconfig.server.json && tsc-alias -p ./tsconfig.server.json",
+    "typecheck": "run-p typecheck:*",
+    "typecheck:server": "tsc -p tsconfig.server.json --noEmit",
+    "typecheck:test": "tsc -p tsconfig.test.json --noEmit",
+    "lint": "run-p -l -c --aggregate-output lint:*",
+    "lint:eslint": "eslint src/**/*.ts tests/**/*.ts",
+    "lint:prettier": "prettier --check src/**/*.ts tests/**/*.ts",
+    "fix": "run-s fix:prettier fix:eslint",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix:prettier": "npm run lint:prettier -- --write",
+    "test": "NODE_ENV=test jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@swc/cli": "0.1.52",
+    "@swc/core": "1.2.112",
+    "@swc/helpers": "0.2.14",
+    "@swc/jest": "0.2.9",
+    "@tsconfig/node16": "1.0.2",
+    "@types/jest": "27.0.3",
+    "@types/node": "16.10.3",
+    "@types/supertest": "2.0.11",
+    "@typescript-eslint/eslint-plugin": "5.3.1",
+    "@typescript-eslint/parser": "5.3.1",
+    "chokidar": "3.5.2",
+    "eslint": "8.3.0",
+    "eslint-config-google": "0.14.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jsdoc": "37.0.3",
+    "jest": "27.3.1",
+    "lint-staged": "12.1.2",
+    "npm-check-updates": "12.0.2",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.4.1",
+    "regenerator-runtime": "0.13.9",
+    "rimraf": "3.0.2",
+    "simple-git-hooks": "2.7.0",
+    "supertest": "6.1.6",
+    "ts-jest": "27.0.7",
+    "ts-node": "10.2.1",
+    "ts-node-dev": "1.1.8",
+    "tsc-alias": "1.4.1",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "4.4.3",
+    "typescript-eslint": "0.0.1-alpha.0"
+  },
+  "dependencies": {
+    "fastify": "3.22.0"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --ignore-unknown --write"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  }
+}

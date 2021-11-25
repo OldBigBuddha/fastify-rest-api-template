@@ -1,0 +1,14 @@
+{
+  "testEnvironment": "node",
+  "roots": ["<rootDir>/src/", "<rootDir>/tests/"],
+  "globals": {
+    "@swc/jest": {
+      "tsconfig": "tsconfig.test.json"
+    }
+  },
+  "moduleDirectories": ["node_modules", "src"],
+  "testMatch": ["<rootDir>/tests/**/*.test.ts"],
+  "transform": {
+    "^.+\\.(t|j)sx?$": "@swc/jest"
+  }
+}
