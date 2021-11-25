@@ -62,7 +62,8 @@
     "fastify": "3.22.0"
   },
   "lint-staged": {
-    "*": [
+    "**/*.ts": [
+      "eslint --fix",
       "prettier --ignore-unknown --write"
     ]
   },
