@@ -9,7 +9,7 @@ TypeScript と Fastify を用いた REST API 開発用のテンプレートで�
 - [x] Routing
 - [x] Lint / Formatter
   - [x] Git Hook
-- [ ] [Helmet](https://github.com/fastify/fastify-helmet)
+- [x] [Helmet](https://github.com/fastify/fastify-helmet)
   - [ ] CSRF
   - [ ] CORS
 - [ ] Config file
