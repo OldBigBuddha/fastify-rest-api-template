@@ -14,5 +14,6 @@ export default async function routes(
   fastify: FastifyInstance,
   options: FastifyServerOptions // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<void> {
-  fastify.register(apiRouting, { prefix: "/api" }).register(healthRouting, { prefix: "/health" });
+  await fastify.register(apiRouting, { prefix: "/api" });
+  await fastify.register(healthRouting, { prefix: "/health" });
 }

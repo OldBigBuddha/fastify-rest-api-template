@@ -17,7 +17,6 @@ function createApp(): FastifyInstance {
   });
 
   app.register(Helmet);
-
   app.register(Routing, { prefix: "/" });
 
   return app;

@@ -12,7 +12,8 @@ export default async function routes(
   fastify: FastifyInstance,
   options: FastifyServerOptions // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<void> {
-  fastify.register(userRouting, { prefix: "/users" }).get("/ping", getPing);
+  await fastify.register(userRouting, { prefix: "/users" });
+  await fastify.get("/ping", getPing);
 }
 
 /**
