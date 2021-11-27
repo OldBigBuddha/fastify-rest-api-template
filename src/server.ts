@@ -3,6 +3,7 @@
 import * as http from "http";
 
 import app from "app";
+import config from "libs/config";
 
 main();
 
@@ -17,7 +18,7 @@ function main(): void {
   process.on("unhandledRejection", console.error);
 
   // サーバー起動
-  app.listen({ port: 3000, host: "0.0.0.0" });
+  app.listen({ port: config.server.port, host: config.server.host });
 
   // Ctrl+c 用
   process.on("SIGINT", (signal) => {

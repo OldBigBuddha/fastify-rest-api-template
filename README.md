@@ -12,7 +12,7 @@ TypeScript と Fastify を用いた REST API 開発用のテンプレートで�
 - [x] [Helmet](https://github.com/fastify/fastify-helmet)
   - [x] CSRF
   - [ ] CORS
-- [ ] Config file
+- [x] Config file
 - [ ] DB(Postgres SQL)
   - [ ] Docker Compose for developing
 - [ ] Authentication(JWT)
