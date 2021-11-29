@@ -22,5 +22,7 @@ export default async function routes(
  * @param reply リプライ
  */
 async function get(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-  reply.status(200).send("OK");
+  reply.status(200).send({
+    status: "OK",
+  });
 }
