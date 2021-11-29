@@ -10,5 +10,20 @@ services:
       - 3000:3000
     env_file:
       - "../../.env.local"
+      - "../../.env.db"
     restart: always
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    container_name: fastify-app-db
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - "../../.env.db"
     tty: true

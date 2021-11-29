@@ -33,8 +33,8 @@ $docker-compose down -v
   - [x] CSRF
   - [ ] CORS
 - [x] Config file
-- [ ] DB(Postgres SQL)
-  - [ ] Docker Compose for developing
+- [x] DB(Postgres SQL)
+  - [x] Docker Compose for developing
 - [ ] Authentication(JWT)
 - [ ] Dependency Injection
 - [ ] GitHub Actions

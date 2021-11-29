@@ -2,6 +2,9 @@ FROM node:16.13.0-bullseye-slim
 
 ENV TZ Asia/Tokyo
 
+# Install nc for wait-for
+RUN apt-get -q update && apt-get -qy install netcat
+
 COPY ./docker/dev/app/files /
 RUN install -m 755 -o node -g node -d /var/app
 
