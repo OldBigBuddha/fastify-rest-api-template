@@ -1,0 +1,18 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "developer",
+  "password": "passw0rd",
+  "database": "fastify-app",
+  "synchronize": false,
+  "logging": true,
+  "entities": ["src/infraarchitecture/datamodels/**/*.ts"],
+  "migrations": ["src/db/migrations/**/*.ts"],
+  "subscribers": ["src/db/subscribers/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/infraarchitecture/datamodels",
+    "migrationsDir": "src/db/migrations",
+    "subscribersDir": "src/db/subscribers"
+  }
+}

@@ -34,5 +34,7 @@ module.exports = {
 
     // 引数の説明は必ず付ける
     "jsdoc/require-param-description": ["error"],
+
+    "new-cap": 0,
   },
 };
