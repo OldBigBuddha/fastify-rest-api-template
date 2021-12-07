@@ -1,5 +1,9 @@
 # REST API Template ~ Fastify version ~
 
+[![MIT](https://img.shields.io/badge/License-MIT-brightgreen)](./LICENSE)
+![Nodejs v16.13.1](https://img.shields.io/badge/node-v16.13.1-green)
+[![Verify](https://github.com/OldBigBuddha/fastify-rest-api-template/actions/workflows/verify.yaml/badge.svg)](https://github.com/OldBigBuddha/fastify-rest-api-template/actions/workflows/verify.yaml)
+
 TypeScript と Fastify を用いた REST API 開発用のテンプレートです。
 
 **注意: 開発前に `npm run prepare` を実行する。**
