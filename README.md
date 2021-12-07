@@ -41,7 +41,7 @@ $docker-compose down -v
   - [x] Docker Compose for developing
 - [ ] Authentication(JWT)
 - [ ] Dependency Injection
-- [ ] GitHub Actions
+- [x] GitHub Actions
 - [ ] Containerize for hosting
 - [ ] i18n
 
