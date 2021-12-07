@@ -10,5 +10,9 @@
       "*": ["src/*"]
     },
     "types": ["node", "jest"]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental"
   }
 }
