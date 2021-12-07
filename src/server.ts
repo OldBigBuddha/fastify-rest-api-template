@@ -5,6 +5,8 @@ import * as http from "http";
 import app from "app";
 import config from "libs/config";
 
+import * as Repository from "infraarchitecture/repositories/Repository";
+
 main();
 
 /**
@@ -17,17 +19,19 @@ function main(): void {
   process.on("uncaughtException", console.error);
   process.on("unhandledRejection", console.error);
 
-  // サーバー起動
-  app.listen({ port: config.server.port, host: config.server.host });
+  Repository.init().then(() => {
+    // サーバー起動
+    app.listen({ port: config.server.port, host: config.server.host });
 
-  // Ctrl+c 用
-  process.on("SIGINT", (signal) => {
-    gracefulShutdown(app.server, signal);
-  });
+    // Ctrl+c 用
+    process.on("SIGINT", (signal) => {
+      gracefulShutdown(app.server, signal);
+    });
 
-  // Docker/K8s 用
-  process.on("SIGTERM", (signal) => {
-    gracefulShutdown(app.server, signal);
+    // Docker/K8s 用
+    process.on("SIGTERM", (signal) => {
+      gracefulShutdown(app.server, signal);
+    });
   });
 }
 
@@ -45,7 +49,13 @@ function gracefulShutdown(server: http.Server, signal: string): void {
     }
 
     // DBのコネクション開放などもここに書く
-    exitWithSuccessful();
+    Repository.disconnect()
+      .then(() => {
+        exitWithSuccessful();
+      })
+      .catch((err) => {
+        exitWithError(err);
+      });
   });
 }
 

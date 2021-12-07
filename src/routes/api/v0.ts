@@ -2,6 +2,8 @@ import { FastifyRequest, FastifyReply, FastifyInstance, FastifyServerOptions } f
 
 import userRouting from "./v0/users";
 
+import * as Repository from "infraarchitecture/repositories/Repository";
+
 /**
  * ルーティング関数
  *
@@ -27,5 +29,6 @@ async function getPing(
   request: FastifyRequest, // eslint-disable-line @typescript-eslint/no-unused-vars
   reply: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<string> {
+  await Repository.ping();
   return "pong";
 }
