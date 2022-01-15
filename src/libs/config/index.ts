@@ -4,7 +4,10 @@ import path from "path";
 
 import glob from "glob";
 import yaml from "js-yaml";
-import { getEnv } from "./utils/env";
+import { getEnv } from "libs/utils/env";
+import { ConnectionOptions } from "typeorm";
+
+import OrmConfig from "./ormconfig";
 
 type Config = Record<string, unknown>;
 
@@ -25,6 +28,9 @@ interface EnvConfig {
      */
     port: number;
   };
+
+  /** コネクション設定 */
+  dbConnection: ConnectionOptions;
 }
 
 type StrictConfig = EnvConfig;
@@ -44,6 +50,7 @@ export function load(baseDirName: string, envDirName = "env", extName = ".yaml")
 
   return {
     ...configEnv,
+    dbConnection: OrmConfig,
   };
 }
 
@@ -120,7 +127,7 @@ function loadYaml(...pathElements: string[]): Config {
  * @returns コンフィグ
  */
 function autoLoad(): StrictConfig {
-  const configBaseDir = getEnv("CONFIG_BASE_DIR", path.join(__dirname, "..", "..", "config"));
+  const configBaseDir = getEnv("CONFIG_BASE_DIR", path.join(__dirname, "..", "..", "..", "config"));
 
   return load(configBaseDir, process.env.CONFIG_ENV_DIR, process.env.CONFIG_EXT);
 }

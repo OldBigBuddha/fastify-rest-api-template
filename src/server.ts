@@ -49,7 +49,7 @@ function gracefulShutdown(server: http.Server, signal: string): void {
     }
 
     // DBのコネクション開放などもここに書く
-    Repository.disconnect()
+    Repository.close()
       .then(() => {
         exitWithSuccessful();
       })

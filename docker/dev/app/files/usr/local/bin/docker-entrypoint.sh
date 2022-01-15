@@ -5,4 +5,4 @@ wait-for db:5432
 
 cd /var/app
 
-npm run dev
+npm run dev:container
