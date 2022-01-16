@@ -3,15 +3,16 @@ import { ConnectionOptions } from "typeorm";
 import { getEnv } from "libs/utils/env";
 
 const ormConfig: ConnectionOptions = {
-  name: "default",
+  name: getEnv("NODE_ENV"),
   type: "postgres",
   host: getEnv("POSTGRES_HOST"),
   port: parseInt(getEnv("POSTGRES_PORT"), 10),
   username: getEnv("POSTGRES_USER"),
   password: getEnv("POSTGRES_PASSWORD"),
   database: getEnv("POSTGRES_DB"),
-  synchronize: false,
+  synchronize: Boolean(getEnv("POSTGRES_ENABLE_SYNCHRONIZE")),
   logging: Boolean(getEnv("POSTGRES_ENABLE_LOGGING")),
+  dropSchema: Boolean(getEnv("POSTGRES_ENABLE_DROP_SCHEMA")),
   entities: ["src/models/**/*.ts"],
   migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],

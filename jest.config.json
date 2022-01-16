@@ -1,5 +1,7 @@
 {
   "testEnvironment": "node",
+  "maxWorkers": 1,
+  "clearMocks": true,
   "roots": ["<rootDir>/src/", "<rootDir>/tests/"],
   "globals": {
     "@swc/jest": {
@@ -10,5 +12,6 @@
   "testMatch": ["<rootDir>/tests/**/*.test.ts"],
   "transform": {
     "^.+\\.(t|j)sx?$": "@swc/jest"
-  }
+  },
+  "setupFilesAfterEnv": ["./tests/setup/index.ts"]
 }

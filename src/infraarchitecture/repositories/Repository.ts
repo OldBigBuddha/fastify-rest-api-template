@@ -12,6 +12,13 @@ export async function init(): Promise<void> {
 }
 
 /**
+ * テスト用DBにマイグレーションを走らす
+ */
+export async function _runMigrationForTest(): Promise<void> {
+  await getConnection(config.dbConnection.name).runMigrations();
+}
+
+/**
  * コネクションの確認
  */
 export async function ping(): Promise<void> {

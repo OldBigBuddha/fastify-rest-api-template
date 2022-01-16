@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: ./docker/test/app/Dockerfile
+    container_name: fastify-app-test
+    ports:
+      - 3000:3000
+    restart: always
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    container_name: fastify-app-db-test
+    restart: always
+    env_file:
+      - "../../.env.db"
+    tty: true
