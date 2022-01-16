@@ -28,7 +28,7 @@
     "fix": "run-s fix:prettier fix:eslint",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write",
-    "test": "NODE_ENV=test jest",
+    "test": "dotenv -c test -- jest",
     "verify": "run-s lint typecheck test"
   },
   "keywords": [],
