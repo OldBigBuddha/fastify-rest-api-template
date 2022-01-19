@@ -12,7 +12,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    container: "node:16.13.1-bullseye-slim"
+    # container: "node:16.13.1-bullseye-slim"
 
     strategy:
       matrix:
