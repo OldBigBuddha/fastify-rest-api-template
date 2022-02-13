@@ -3,7 +3,6 @@ import { ConnectionOptions } from "typeorm";
 import { getEnv } from "libs/utils/env";
 
 const ormConfig: ConnectionOptions = {
-  name: getEnv("NODE_ENV"),
   type: "postgres",
   host: getEnv("POSTGRES_HOST"),
   port: parseInt(getEnv("POSTGRES_PORT"), 10),

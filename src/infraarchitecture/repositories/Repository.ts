@@ -15,14 +15,14 @@ export async function init(): Promise<void> {
  * テスト用DBにマイグレーションを走らす
  */
 export async function _runMigrationForTest(): Promise<void> {
-  await getConnection(config.dbConnection.name).runMigrations();
+  await getConnection().runMigrations();
 }
 
 /**
  * コネクションの確認
  */
 export async function ping(): Promise<void> {
-  await getConnection(config.dbConnection.name).query("SELECT 1");
+  await getConnection().query("SELECT 1");
 }
 
 /**
