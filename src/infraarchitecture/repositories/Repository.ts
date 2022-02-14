@@ -4,6 +4,16 @@ import { createConnection, getConnection } from "typeorm";
 
 import config from "libs/config";
 
+interface LimitOffset {
+  limit: number;
+  offset: number;
+}
+
+export interface Pagination {
+  pageTo: number;
+  perPage: number;
+}
+
 /**
  * DB コネクションの初期化
  */
@@ -30,4 +40,18 @@ export async function ping(): Promise<void> {
  */
 export async function close(): Promise<void> {
   await getConnection(config.dbConnection.name).close();
+}
+
+/**
+ * pageTo/perPage を limit/offset へ変換する
+ *
+ * @param pagination ページネーション情報
+ * @returns limit/offset
+ */
+export function toLimitOffset(pagination: Pagination): LimitOffset {
+  const { perPage, pageTo } = pagination;
+  return {
+    limit: perPage,
+    offset: perPage * pageTo,
+  };
 }

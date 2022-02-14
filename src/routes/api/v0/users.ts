@@ -1,6 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } from "fastify";
 
-import * as RequestType from "../../../types/api/v0/users";
+import * as service from "services/api/v0/users";
+
+import * as RequestType from "types/api/v0/users";
 
 /**
  * ルーティング関数
@@ -25,8 +27,9 @@ export default async function routes(
 async function get(
   request: FastifyRequest, // eslint-disable-line @typescript-eslint/no-unused-vars
   reply: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
-): Promise<string> {
-  return "users";
+): Promise<RequestType.User[]> {
+  const resBody = await service.get({ pageTo: 0, perPage: 50 });
+  return resBody;
 }
 
 /**

@@ -12,7 +12,7 @@ const ormConfig: ConnectionOptions = {
   synchronize: Boolean(getEnv("POSTGRES_ENABLE_SYNCHRONIZE")),
   logging: Boolean(getEnv("POSTGRES_ENABLE_LOGGING")),
   dropSchema: Boolean(getEnv("POSTGRES_ENABLE_DROP_SCHEMA")),
-  entities: ["src/models/**/*.ts"],
+  entities: ["src/infraarchitecture/repositories/datamodels/*Model.ts"],
   migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],
   cli: {
