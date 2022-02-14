@@ -2,7 +2,7 @@ import UserEntity from "business/entities/UserEntity";
 import * as UserUsecase from "business/usecases/user";
 
 import { Pagination } from "infraarchitecture/repositories/Repository";
-import { User } from "types/api/v0/users";
+import { CreateUserDataRequest, UserResponse } from "schemas/user";
 
 /**
  * GET /
@@ -12,21 +12,35 @@ import { User } from "types/api/v0/users";
  * @param pagination ページネーション情報
  * @returns ユーザー一覧
  */
-export async function get(pagination: Pagination): Promise<User[]> {
+export async function get(pagination: Pagination): Promise<UserResponse[]> {
   const users = await UserUsecase.findAll(pagination);
 
   return users.map(toResponse);
 }
 
 /**
- * UserEntity をレスポンス形式に変換する
+ * POST /
  *
- * @param entity UserEntity
- * @returns レスポンス
+ * ユーザーを新規作成
+ *
+ * @param data ユーザーを作成に必要な情報
+ * @returns レスポンス形式のユーザー情報
  */
-function toResponse(entity: UserEntity): User {
+export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
+  const user = await UserUsecase.create(data);
+
+  return toResponse(user);
+}
+
+/**
+ * レスポンス用の形式へ変換する
+ *
+ * @param entity ユーザー
+ * @returns レスポンス用に整形されたのユーザー情報
+ */
+export function toResponse(entity: UserEntity): UserResponse {
   return {
-    id: entity.uuid,
     loginId: entity.loginId,
+    displayName: entity.displayName,
   };
 }

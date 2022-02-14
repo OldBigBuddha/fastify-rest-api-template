@@ -20,6 +20,17 @@ abstract class Entity<Value extends ValueObjectCore> {
   }
 
   /**
+   * エンティティが保有する実際の情報を取得する
+   *
+   * Repository 内で model へ変換するために使う。
+   *
+   * @returns エンティティが保有する情報
+   */
+  getValues(): Value {
+    return this.values;
+  }
+
+  /**
    * UUID
    *
    * @returns UUID

@@ -30,7 +30,13 @@ const RND_LENGTH = 16;
  * ユーザー
  */
 class UserEntity extends Entity<ValueObject> {
-  static factory(properties: Properties): UserEntity {
+  /**
+   * UserEntity を新規で作成する
+   *
+   * @param properties エンティティ生成に必要な情報
+   * @returns ユーザー
+   */
+  static new(properties: Properties): UserEntity {
     return new UserEntity({
       uuid: generateUuidV4(),
       displayName: properties.displayName,
@@ -57,6 +63,10 @@ class UserEntity extends Entity<ValueObject> {
 
   get loginId(): string {
     return this.values.loginId;
+  }
+
+  get displayName(): string {
+    return this.values.displayName;
   }
 
   /**

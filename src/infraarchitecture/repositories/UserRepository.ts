@@ -21,6 +21,16 @@ export async function findAll(limit: number, offset: number): Promise<UserEntity
 }
 
 /**
+ * ユーザー情報を永続化する
+ *
+ * @param entity ユーザー
+ */
+export async function save(entity: UserEntity): Promise<void> {
+  const model = await toModel(entity);
+  await getRepository(UserModel).save(model);
+}
+
+/**
  * UserModel を UserEntity へ変換する
  *
  * @param model UserModel
@@ -38,4 +48,25 @@ export function toEntity(model: UserModel): UserEntity {
   });
 
   return entity;
+}
+
+/**
+ * UserEntity を UserModel へ変換する
+ *
+ * @param entity UserEntity
+ * @returns UserModel
+ */
+async function toModel(entity: UserEntity): Promise<UserModel> {
+  const values = entity.getValues();
+
+  const model = new UserModel();
+  model.uuid = values.uuid as unknown as string;
+  model.loginId = values.loginId;
+  model.displayName = values.displayName;
+  model.passwordHash = await values.hashPasswordPromise;
+  model.rnd = values.rnd;
+  model.createdAt = values.createdAt;
+  model.deletedAt = values.deletedAt;
+
+  return model;
 }
