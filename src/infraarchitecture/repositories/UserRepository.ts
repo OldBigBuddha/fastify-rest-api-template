@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 
 import UserEntity from "business/entities/UserEntity";
 import UserModel from "./datamodels/UserModel";
-import { toUuid } from "libs/utils/uuid";
+import { toUuid, UUID } from "libs/utils/uuid";
 
 /**
  * ユーザー一覧を取得
@@ -18,6 +18,28 @@ export async function findAll(limit: number, offset: number): Promise<UserEntity
   });
 
   return models.map(toEntity);
+}
+
+/**
+ * UUIDを使ってユーザーを取得する
+ *
+ * @param uuid ユーザーID
+ * @param deleted 論理削除済みを取得するか？
+ * @returns ユーザー（見つからなかったら null）
+ */
+export async function findByUuid(uuid: UUID, deleted: boolean): Promise<UserEntity | null> {
+  const model = await getRepository(UserModel).findOne({
+    where: {
+      uuid: uuid,
+    },
+    withDeleted: deleted,
+  });
+
+  if (model == null) {
+    return null;
+  }
+
+  return toEntity(model);
 }
 
 /**

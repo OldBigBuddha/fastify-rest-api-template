@@ -1,4 +1,4 @@
-import { Type } from "@sinclair/typebox";
+import { Static, Type } from "@sinclair/typebox";
 
 export const paginationQuery = Type.Object({
   perPage: Type.Optional(
@@ -12,3 +12,8 @@ export const paginationQuery = Type.Object({
     })
   ),
 });
+
+export const paramUserId = Type.Object({
+  userId: Type.String({ format: "uuid" }),
+});
+export type ParamUserId = Static<typeof paramUserId>;

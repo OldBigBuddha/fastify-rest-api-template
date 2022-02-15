@@ -14,6 +14,7 @@ export type CreateUserDataRequest = Static<typeof CreateUserData>;
  * レスポンス用ユーザーのスキーマ
  */
 export const User = Type.Object({
+  id: Type.String(),
   loginId: Type.String(),
   displayName: Type.String(),
 });

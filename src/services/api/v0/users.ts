@@ -2,6 +2,7 @@ import UserEntity from "business/entities/UserEntity";
 import * as UserUsecase from "business/usecases/user";
 
 import { Pagination } from "infraarchitecture/repositories/Repository";
+import { UUID } from "libs/utils/uuid";
 import { CreateUserDataRequest, UserResponse } from "schemas/user";
 
 /**
@@ -33,6 +34,20 @@ export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
 }
 
 /**
+ * GET /:userId
+ *
+ * ユーザーを取得する
+ *
+ * @param uuid ユーザーID
+ * @returns レスポンス形式のユーザー情報
+ */
+export async function get$userId(uuid: UUID): Promise<UserResponse> {
+  const user = await UserUsecase.findByUuid(uuid);
+
+  return toResponse(user);
+}
+
+/**
  * レスポンス用の形式へ変換する
  *
  * @param entity ユーザー
@@ -40,6 +55,7 @@ export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
  */
 export function toResponse(entity: UserEntity): UserResponse {
   return {
+    id: entity.uuid.toString(),
     loginId: entity.loginId,
     displayName: entity.displayName,
   };

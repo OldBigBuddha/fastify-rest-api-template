@@ -1,4 +1,4 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 const TABLE_NAME = "users";
 
@@ -31,6 +31,6 @@ export default class UserModel {
   @Column({ type: "bigint", unsigned: true, nullable: false, comment: "作成日時; Unix時間（ミリ秒）" })
   public createdAt!: number;
 
-  @Column({ type: "bigint", unsigned: true, nullable: true, comment: "削除日時; Unix時間（ミリ秒）" })
+  @DeleteDateColumn({ type: "bigint", unsigned: true, nullable: true, comment: "削除日時; Unix時間（ミリ秒）" })
   public deletedAt!: number | null;
 }

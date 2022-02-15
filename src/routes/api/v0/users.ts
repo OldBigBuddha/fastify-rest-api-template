@@ -1,16 +1,12 @@
-import {
-  FastifyInstance,
-  FastifyReply,
-  FastifyRequest,
-  FastifyServerOptions,
-  RawRequestDefaultExpression,
-  RawServerDefault,
-} from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } from "fastify";
 
 import * as service from "services/api/v0/users";
 
 import { CreateUserData, CreateUserDataRequest, User, UserResponse } from "schemas/user";
 import * as RequestType from "types/api/v0/users";
+import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
+import { toUuid } from "libs/utils/uuid";
+import { BadRequestCreateUserBody, NotFoundUser } from "schemas/error";
 
 /**
  * ルーティング関数
@@ -29,14 +25,28 @@ export default async function routes(
       {
         schema: {
           body: CreateUserData,
+          querystring: paginationQuery,
           response: {
             201: User,
+            400: BadRequestCreateUserBody,
           },
         },
       },
       post
     )
-    .get("/:userId", get$userId);
+    .get(
+      "/:userId",
+      {
+        schema: {
+          params: paramUserId,
+          response: {
+            200: User,
+            404: NotFoundUser,
+          },
+        },
+      },
+      get$userId
+    );
 }
 
 /**
@@ -74,12 +84,13 @@ async function post(
  *
  * @param request リクエスト
  * @param reply レスポンス
- * @returns `users/${userId}`
  */
 async function get$userId(
-  request: RequestType.get$userId,
+  request: FastifyRequest<{ Params: ParamUserId }>,
   reply: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
-): Promise<string> {
-  const userId = request.params.userId;
-  return `User#${userId}`;
+): Promise<void> {
+  const { userId } = request.params;
+  const resBody = await service.get$userId(toUuid(userId));
+
+  reply.send(resBody);
 }
