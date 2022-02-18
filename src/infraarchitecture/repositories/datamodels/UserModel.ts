@@ -32,5 +32,5 @@ export default class UserModel {
   public createdAt!: number;
 
   @DeleteDateColumn({ type: "bigint", unsigned: true, nullable: true, comment: "削除日時; Unix時間（ミリ秒）" })
-  public deletedAt!: number | null;
+  public deletedAt?: number;
 }

@@ -1,4 +1,4 @@
-import Entity, { ValueObjectCore } from "./Entity";
+import TrashableEntity, { ValueObjectCore } from "./TrashableEntity";
 
 import { generateRandomString } from "libs/utils/string";
 import { generateUuidV4 } from "libs/utils/uuid";
@@ -21,7 +21,6 @@ interface ValueObject extends ValueObjectCore, Omit<Properties, "password"> {
   hashPasswordPromise: Promise<string>;
 
   createdAt: number;
-  deletedAt: number | null;
 }
 
 const RND_LENGTH = 16;
@@ -29,7 +28,7 @@ const RND_LENGTH = 16;
 /**
  * ユーザー
  */
-class UserEntity extends Entity<ValueObject> {
+class UserEntity extends TrashableEntity<ValueObject> {
   /**
    * UserEntity を新規で作成する
    *
@@ -45,11 +44,16 @@ class UserEntity extends Entity<ValueObject> {
       hashPasswordPromise: hashPassword(properties.password),
 
       createdAt: Date.now(),
-      deletedAt: null,
     });
   }
 
-  static _factoryWithValueObject(values: ValueObject): UserEntity {
+  /**
+   * DB に保存されている値から UserEntity を作成する
+   *
+   * @param values Entityが保有している値
+   * @returns UserEntity
+   */
+  static factory(values: ValueObject): UserEntity {
     return new UserEntity({
       uuid: values.uuid,
       displayName: values.displayName,
@@ -96,20 +100,6 @@ class UserEntity extends Entity<ValueObject> {
    */
   regenerateRnd(): void {
     this.values.rnd = generateRandomString(RND_LENGTH);
-  }
-
-  /**
-   * ユーザーを論理削除する
-   */
-  trash(): void {
-    this.values.deletedAt = Date.now();
-  }
-
-  /**
-   * 論理削除状態のユーザーを復元する
-   */
-  restore(): void {
-    this.values.deletedAt = null;
   }
 }
 

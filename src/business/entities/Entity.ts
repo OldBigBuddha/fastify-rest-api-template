@@ -4,6 +4,7 @@ import { UUID } from "libs/utils/uuid";
  * コア ValueObject
  */
 export interface ValueObjectCore {
+  id?: number;
   uuid: UUID;
 }
 
@@ -37,6 +38,28 @@ abstract class Entity<Value extends ValueObjectCore> {
    */
   get uuid(): UUID {
     return this.values.uuid;
+  }
+
+  /**
+   * ID（Primary Key）
+   *
+   * @returns ID
+   */
+  get id(): number {
+    if (this.values.id == null) {
+      this.raiseEntityError("`id` is not set yet");
+    }
+
+    return this.values.id;
+  }
+
+  /**
+   * Entity が永続化しているか否か
+   *
+   * @returns 永続化している場合はTrue
+   */
+  hasPersist(): boolean {
+    return this.values.id != null;
   }
 
   /**

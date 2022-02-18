@@ -59,7 +59,7 @@ export async function save(entity: UserEntity): Promise<void> {
  * @returns UserEntity
  */
 export function toEntity(model: UserModel): UserEntity {
-  const entity = UserEntity._factoryWithValueObject({
+  const entity = UserEntity.factory({
     uuid: toUuid(model.uuid),
     displayName: model.displayName,
     loginId: model.loginId,
