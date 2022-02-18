@@ -40,26 +40,10 @@ export async function findByUuid(uuid: UUID): Promise<UserEntity> {
 }
 
 /**
- * ユーザー情報を更新する
- *
- * @param uuid ユーザーID
- * @param data ユーザーの更新情報
- * @returns 更新後のユーザー（永続化済み）
- */
-export async function update(uuid: UUID, data: UpdateUserDataRequest): Promise<UserEntity> {
-  const user = await findByUuid(uuid);
-  await user.updateValue(data);
-
-  await UseRepository.save(user);
-
-  return user;
-}
-
-/**
  * ユーザーを新規作成
  *
  * @param data ユーザー作成に必要な情報
- * @returns ユーザー
+ * @returns ユーザー（永続化済み）
  */
 export async function create(data: CreateUserDataRequest): Promise<UserEntity> {
   const user = UserEntity.new({
@@ -71,4 +55,30 @@ export async function create(data: CreateUserDataRequest): Promise<UserEntity> {
   await UseRepository.save(user);
 
   return user;
+}
+
+/**
+ * ユーザー情報を更新する
+ *
+ * @param user ユーザー
+ * @param data ユーザーの更新情報
+ * @returns 更新後のユーザー（永続化済み）
+ */
+export async function update(user: UserEntity, data: UpdateUserDataRequest): Promise<UserEntity> {
+  await user.updateValue(data);
+
+  await UseRepository.save(user);
+
+  return user;
+}
+
+/**
+ * ユーザーを論理削除する
+ *
+ * @param user ユーザー
+ */
+export async function trash(user: UserEntity): Promise<void> {
+  user.trash();
+
+  await UseRepository.save(user);
 }

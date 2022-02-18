@@ -50,16 +50,29 @@ export async function get$userId(uuid: UUID): Promise<UserResponse> {
 /**
  * PUT /:userId
  *
- * ユーザーを更新する
+ * ユーザーを更新する。
  *
  * @param uuid ユーザーID
  * @param data ユーザー情報
  * @returns レスポンスの形式のユーザー情報
  */
 export async function put$userId(uuid: UUID, data: UpdateUserDataRequest): Promise<UserResponse> {
-  const user = await UserUsecase.update(uuid, data);
+  const user = await UserUsecase.findByUuid(uuid);
+  const newUser = await UserUsecase.update(user, data);
 
-  return toResponse(user);
+  return toResponse(newUser);
+}
+
+/**
+ * DELETE /:userId
+ *
+ * ユーザーを論理削除する。
+ *
+ * @param uuid ユーザー情報
+ */
+export async function delete$userId(uuid: UUID): Promise<void> {
+  const user = await UserUsecase.findByUuid(uuid);
+  await UserUsecase.trash(user);
 }
 
 /**

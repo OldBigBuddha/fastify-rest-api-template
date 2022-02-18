@@ -13,6 +13,7 @@ import {
 import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
 import { BadRequestCreateUserBody, BadRequestUpdateUserBody, NotFoundUser } from "schemas/error";
 import { toUuid } from "libs/utils/uuid";
+import { Type } from "@sinclair/typebox";
 
 /**
  * ルーティング関数
@@ -76,6 +77,19 @@ export default async function routes(
         },
       },
       put$userId
+    )
+    .delete(
+      "/:userId",
+      {
+        schema: {
+          params: paramUserId,
+          response: {
+            204: Type.Null(),
+            404: NotFoundUser,
+          },
+        },
+      },
+      delete$userId
     );
 }
 
@@ -139,4 +153,20 @@ async function put$userId(
   const resBody = await service.put$userId(toUuid(userId), request.body);
 
   reply.send(resBody);
+}
+
+/**
+ * DELETE /v1/users/:userId
+ *
+ * @param request リクエスト
+ * @param reply レスポンス
+ */
+async function delete$userId(
+  request: FastifyRequest<{ Params: ParamUserId; Body: UpdateUserDataRequest }>,
+  reply: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
+): Promise<void> {
+  const { userId } = request.params;
+  await service.delete$userId(toUuid(userId));
+
+  reply.status(204).send();
 }
