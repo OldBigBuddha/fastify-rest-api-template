@@ -3,7 +3,7 @@ import * as UserUsecase from "business/usecases/user";
 
 import { Pagination } from "infraarchitecture/repositories/Repository";
 import { UUID } from "libs/utils/uuid";
-import { CreateUserDataRequest, UserResponse } from "schemas/user";
+import { CreateUserDataRequest, UpdateUserDataRequest, UserResponse } from "schemas/user";
 
 /**
  * GET /
@@ -43,6 +43,21 @@ export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
  */
 export async function get$userId(uuid: UUID): Promise<UserResponse> {
   const user = await UserUsecase.findByUuid(uuid);
+
+  return toResponse(user);
+}
+
+/**
+ * PUT /:userId
+ *
+ * ユーザーを更新する
+ *
+ * @param uuid ユーザーID
+ * @param data ユーザー情報
+ * @returns レスポンスの形式のユーザー情報
+ */
+export async function put$userId(uuid: UUID, data: UpdateUserDataRequest): Promise<UserResponse> {
+  const user = await UserUsecase.update(uuid, data);
 
   return toResponse(user);
 }

@@ -69,6 +69,8 @@ export function toEntity(model: UserModel): UserEntity {
     deletedAt: model.deletedAt,
   });
 
+  entity._id = model.id;
+
   return entity;
 }
 
@@ -89,6 +91,10 @@ async function toModel(entity: UserEntity): Promise<UserModel> {
   model.rnd = values.rnd;
   model.createdAt = values.createdAt;
   model.deletedAt = values.deletedAt;
+
+  if (entity.hasPersist()) {
+    model.id = entity.id;
+  }
 
   return model;
 }

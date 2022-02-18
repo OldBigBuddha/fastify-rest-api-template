@@ -2,11 +2,17 @@ import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } f
 
 import * as service from "services/api/v0/users";
 
-import { CreateUserData, CreateUserDataRequest, User, UserResponse } from "schemas/user";
-import * as RequestType from "types/api/v0/users";
+import {
+  CreateUserData,
+  CreateUserDataRequest,
+  UpdateUserDataRequest,
+  User,
+  UserList,
+  UserResponse,
+} from "schemas/user";
 import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
+import { BadRequestCreateUserBody, BadRequestUpdateUserBody, NotFoundUser } from "schemas/error";
 import { toUuid } from "libs/utils/uuid";
-import { BadRequestCreateUserBody, NotFoundUser } from "schemas/error";
 
 /**
  * ルーティング関数
@@ -19,7 +25,17 @@ export default async function routes(
   options: FastifyServerOptions // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<void> {
   fastify
-    .get("/", get)
+    .get(
+      "/",
+      {
+        schema: {
+          response: {
+            200: UserList,
+          },
+        },
+      },
+      get
+    )
     .post(
       "/",
       {
@@ -46,6 +62,20 @@ export default async function routes(
         },
       },
       get$userId
+    )
+    .put(
+      "/:userId",
+      {
+        schema: {
+          params: paramUserId,
+          response: {
+            200: User,
+            400: BadRequestUpdateUserBody,
+            404: NotFoundUser,
+          },
+        },
+      },
+      put$userId
     );
 }
 
@@ -91,6 +121,22 @@ async function get$userId(
 ): Promise<void> {
   const { userId } = request.params;
   const resBody = await service.get$userId(toUuid(userId));
+
+  reply.send(resBody);
+}
+
+/**
+ * PUT /v1/users/:userId
+ *
+ * @param request リクエスト
+ * @param reply レスポンス
+ */
+async function put$userId(
+  request: FastifyRequest<{ Params: ParamUserId; Body: UpdateUserDataRequest }>,
+  reply: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
+): Promise<void> {
+  const { userId } = request.params;
+  const resBody = await service.put$userId(toUuid(userId), request.body);
 
   reply.send(resBody);
 }

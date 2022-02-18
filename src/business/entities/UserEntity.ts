@@ -3,6 +3,7 @@ import TrashableEntity, { ValueObjectCore } from "./TrashableEntity";
 import { generateRandomString } from "libs/utils/string";
 import { generateUuidV4 } from "libs/utils/uuid";
 import { hashPassword, verifyPassword } from "libs/utils/hash";
+import { UpdateUserDataRequest } from "schemas/user";
 
 /**
  * UserEntity 生成時に必要な値
@@ -71,6 +72,20 @@ class UserEntity extends TrashableEntity<ValueObject> {
 
   get displayName(): string {
     return this.values.displayName;
+  }
+
+  /**
+   * Entityの値を更新する
+   *
+   * @param newValues 新しい値
+   */
+  async updateValue(newValues: UpdateUserDataRequest): Promise<void> {
+    this.values.loginId = newValues.loginId ?? this.loginId;
+    this.values.displayName = newValues.displayName ?? this.displayName;
+
+    if (newValues.password != null) {
+      this.updatePassword(newValues.password);
+    }
   }
 
   /**

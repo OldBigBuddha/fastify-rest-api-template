@@ -6,7 +6,7 @@ import * as UseRepository from "infraarchitecture/repositories/UserRepository";
 import { UUID } from "libs/utils/uuid";
 import AppError, { HttpErrorStatus } from "libs/AppError";
 
-import { CreateUserDataRequest } from "schemas/user";
+import { CreateUserDataRequest, UpdateUserDataRequest } from "schemas/user";
 
 /**
  * ユーザー配列を取得
@@ -35,6 +35,22 @@ export async function findByUuid(uuid: UUID): Promise<UserEntity> {
     error.addDetail("uuid", uuid.toString());
     throw error;
   }
+
+  return user;
+}
+
+/**
+ * ユーザー情報を更新する
+ *
+ * @param uuid ユーザーID
+ * @param data ユーザーの更新情報
+ * @returns 更新後のユーザー（永続化済み）
+ */
+export async function update(uuid: UUID, data: UpdateUserDataRequest): Promise<UserEntity> {
+  const user = await findByUuid(uuid);
+  await user.updateValue(data);
+
+  await UseRepository.save(user);
 
   return user;
 }

@@ -5,7 +5,7 @@ const TABLE_NAME = "users";
 @Entity(TABLE_NAME)
 export default class UserModel {
   @PrimaryGeneratedColumn("increment", { type: "bigint", unsigned: true, comment: "内部ID" })
-  readonly id!: number;
+  public id!: number;
 
   @Index(`IDX:${TABLE_NAME}:uuid`, {
     unique: true,

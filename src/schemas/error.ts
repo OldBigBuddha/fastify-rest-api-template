@@ -9,9 +9,11 @@ export const NotFoundUser = Type.Object({
 
 export const BadRequestCreateUserBody = Type.Object({
   message: Type.String(),
-  details: Type.Object({
-    loginId: Type.Optional(Type.String()),
-    displayName: Type.Optional(Type.String()),
-    password: Type.Optional(Type.String()),
-  }),
+  // details: Type.Object({
+  //   loginId: Type.Optional(Type.String()),
+  //   displayName: Type.Optional(Type.String()),
+  //   password: Type.Optional(Type.String()),
+  // }),
 });
+
+export const BadRequestUpdateUserBody = BadRequestCreateUserBody;

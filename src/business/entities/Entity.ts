@@ -53,6 +53,10 @@ abstract class Entity<Value extends ValueObjectCore> {
     return this.values.id;
   }
 
+  set _id(id: number) {
+    this.values.id = id;
+  }
+
   /**
    * Entity が永続化しているか否か
    *
