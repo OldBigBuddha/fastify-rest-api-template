@@ -3,10 +3,10 @@ import UserEntity from "business/entities/UserEntity";
 import { Pagination, toLimitOffset } from "infraarchitecture/repositories/Repository";
 import * as UseRepository from "infraarchitecture/repositories/UserRepository";
 
+import { CreateUserDataRequest, UpdateUserDataRequest } from "schemas/api/v0/user";
+
 import { UUID } from "libs/utils/uuid";
 import AppError, { HttpErrorStatus } from "libs/AppError";
-
-import { CreateUserDataRequest, UpdateUserDataRequest } from "schemas/user";
 
 /**
  * ユーザー配列を取得
@@ -79,6 +79,17 @@ export async function update(user: UserEntity, data: UpdateUserDataRequest): Pro
  */
 export async function trash(user: UserEntity): Promise<void> {
   user.trash();
+
+  await UseRepository.save(user);
+}
+
+/**
+ * 発行済のログイントークンを無効化する
+ *
+ * @param user ユーザー
+ */
+export async function invalidOldLoginToken(user: UserEntity): Promise<void> {
+  user.regenerateRnd();
 
   await UseRepository.save(user);
 }

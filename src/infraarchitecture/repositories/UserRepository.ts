@@ -43,6 +43,27 @@ export async function findByUuid(uuid: UUID, deleted: boolean): Promise<UserEnti
 }
 
 /**
+ * ログインIDを用いてユーザーを取得する
+ *
+ * @param loginId ログインID
+ * @returns ユーザー
+ */
+export async function findByLoginId(loginId: string): Promise<UserEntity | null> {
+  const model = await getRepository(UserModel).findOne({
+    where: {
+      loginId: loginId,
+    },
+    withDeleted: false,
+  });
+
+  if (model == null) {
+    return null;
+  }
+
+  return toEntity(model);
+}
+
+/**
  * ユーザー情報を永続化する
  *
  * @param entity ユーザー

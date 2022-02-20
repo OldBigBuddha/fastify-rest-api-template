@@ -9,7 +9,7 @@ import {
   User,
   UserList,
   UserResponse,
-} from "schemas/user";
+} from "schemas/api/v0/user";
 import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
 import { BadRequestCreateUserBody, BadRequestUpdateUserBody, NotFoundUser } from "schemas/error";
 import { toUuid } from "libs/utils/uuid";

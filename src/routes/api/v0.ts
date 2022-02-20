@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, FastifyServerOptions } from "fastify";
 
+import authorizeRouting from "./v0/authorize";
 import userRouting from "./v0/users";
 
 import * as Repository from "infraarchitecture/repositories/Repository";
@@ -14,12 +15,16 @@ export default async function routes(
   fastify: FastifyInstance,
   options: FastifyServerOptions // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<void> {
+  await fastify.register(authorizeRouting, { prefix: "/authorize" });
+
+  // TODO: 認証デコレーター or plugin を準備する
+
   await fastify.register(userRouting, { prefix: "/users" });
   await fastify.get("/ping", getPing);
 }
 
 /**
- * GET /v1/ping
+ * GET /v0/ping
  *
  * @param request リクエスト
  * @param reply レスポンス

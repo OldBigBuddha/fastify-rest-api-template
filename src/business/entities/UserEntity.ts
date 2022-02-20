@@ -3,7 +3,7 @@ import TrashableEntity, { ValueObjectCore } from "./TrashableEntity";
 import { generateRandomString } from "libs/utils/string";
 import { generateUuidV4 } from "libs/utils/uuid";
 import { hashPassword, verifyPassword } from "libs/utils/hash";
-import { UpdateUserDataRequest } from "schemas/user";
+import { UpdateUserDataRequest } from "schemas/api/v0/user";
 
 /**
  * UserEntity 生成時に必要な値
@@ -74,8 +74,14 @@ class UserEntity extends TrashableEntity<ValueObject> {
     return this.values.displayName;
   }
 
+  get rnd(): string {
+    return this.values.rnd;
+  }
+
   /**
    * Entityの値を更新する
+   *
+   * TODO: 引数の型を変更する（フレームワークに依存させたくない
    *
    * @param newValues 新しい値
    */

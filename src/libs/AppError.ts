@@ -22,6 +22,16 @@ class AppError extends Error {
     return new AppError(status, message);
   }
 
+  /**
+   * エラーを発生させる
+   *
+   * @param status HTTPステータス
+   * @param message エラーメッセージ
+   */
+  static raise(status: HttpErrorStatus, message: string): never {
+    throw new AppError(status, message);
+  }
+
   private constructor(status: HttpErrorStatus, message: string) {
     super();
     this.status = status;
