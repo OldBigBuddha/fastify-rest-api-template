@@ -2,7 +2,6 @@
 import { FastifyInstance, FastifyServerOptions } from "fastify";
 
 import apiRouting from "../routes/api";
-import healthRouting from "../routes/health";
 
 /**
  * ルーティング関数
@@ -15,5 +14,4 @@ export default async function routes(
   options: FastifyServerOptions // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Promise<void> {
   await fastify.register(apiRouting, { prefix: "/api" });
-  await fastify.register(healthRouting, { prefix: "/health" });
 }

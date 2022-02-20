@@ -1,6 +1,8 @@
 // アプリケーションの生成
+import path from "path";
 
 import Fastify, { FastifyInstance } from "fastify";
+import { bootstrap } from "fastify-decorators";
 import Helmet from "fastify-helmet";
 
 import Routing from "plugins/routing";
@@ -17,6 +19,11 @@ function createApp(): FastifyInstance {
   });
 
   app.register(Helmet);
+  app.register(bootstrap, {
+    directory: path.resolve(__dirname, "controllers"),
+
+    mask: /\.controller\./,
+  });
   app.register(Routing, { prefix: "/" });
 
   return app;
