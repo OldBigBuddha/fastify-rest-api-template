@@ -21,7 +21,6 @@ function createApp(): FastifyInstance {
   app.register(Helmet);
   app.register(bootstrap, {
     directory: path.resolve(__dirname, "controllers"),
-
     mask: /\.controller\./,
   });
   app.register(Routing, { prefix: "/" });
