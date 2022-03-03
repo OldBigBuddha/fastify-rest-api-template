@@ -1,4 +1,4 @@
-import * as Repository from "infraarchitecture/repositories/Repository";
+import * as Repository from "db/helper";
 
 /**
  * テスト用DBのセットアップ

@@ -5,7 +5,7 @@ import * as http from "http";
 import app from "app";
 import config from "libs/config";
 
-import * as Repository from "infraarchitecture/repositories/Repository";
+import * as Repository from "db/helper";
 
 main();
 

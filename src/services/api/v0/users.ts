@@ -1,7 +1,7 @@
 import UserEntity from "business/entities/UserEntity";
 import * as UserUsecase from "business/usecases/user";
 
-import { Pagination } from "infraarchitecture/repositories/Repository";
+import { Pagination } from "db/helper";
 import { UUID } from "libs/utils/uuid";
 import { CreateUserDataRequest, UpdateUserDataRequest, UserResponse } from "schemas/api/v0/user";
 

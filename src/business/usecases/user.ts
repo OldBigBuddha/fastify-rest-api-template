@@ -1,6 +1,6 @@
 import UserEntity from "business/entities/UserEntity";
 
-import { Pagination, toLimitOffset } from "infraarchitecture/repositories/Repository";
+import { Pagination, toLimitOffset } from "db/helper";
 import * as UseRepository from "infraarchitecture/repositories/UserRepository";
 
 import { CreateUserDataRequest, UpdateUserDataRequest } from "schemas/api/v0/user";

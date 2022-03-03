@@ -1,6 +1,6 @@
 import { Service } from "fastify-decorators";
 
-import * as Repository from "infraarchitecture/repositories/Repository";
+import * as Repository from "db/helper";
 
 export const HealthServiceToken = Symbol("HealthService");
 

@@ -3,7 +3,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance, FastifyServerOptions } f
 import authorizeRouting from "./v0/authorize";
 import userRouting from "./v0/users";
 
-import * as Repository from "infraarchitecture/repositories/Repository";
+import * as Repository from "db/helper";
 
 /**
  * ルーティング関数
