@@ -65,7 +65,11 @@ export async function create(data: CreateUserDataRequest): Promise<UserEntity> {
  * @returns 更新後のユーザー（永続化済み）
  */
 export async function update(user: UserEntity, data: UpdateUserDataRequest): Promise<UserEntity> {
-  await user.updateValue(data);
+  await user.updateValue({
+    loginId: data.loginId,
+    displayName: data.displayName,
+    password: data.password,
+  });
 
   await UseRepository.save(user);
 

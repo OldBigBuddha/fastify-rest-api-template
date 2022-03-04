@@ -1,7 +1,9 @@
 import { Type } from "@sinclair/typebox";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller, DELETE, GET, getInstanceByToken, POST, PUT } from "fastify-decorators";
-import { toUuid } from "libs/utils/uuid";
+import UsersService, { UsersServiceToken } from "services/api/v0/users";
+import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
+import { BadRequestCreateUserBody, NotFoundUser } from "schemas/error";
 import {
   CreateUserDataRequest,
   UserResponse,
@@ -10,9 +12,7 @@ import {
   CreateUserData,
   User,
 } from "schemas/api/v0/user";
-import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
-import { BadRequestCreateUserBody, NotFoundUser } from "schemas/error";
-import UsersService, { UsersServiceToken } from "services/api/v0/users";
+import { toUuid } from "libs/utils/uuid";
 
 @Controller({ route: "/api/v0/users" })
 export default class UsersController {
