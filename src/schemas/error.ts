@@ -1,4 +1,9 @@
-import { Type } from "@sinclair/typebox";
+import { Static, Type } from "@sinclair/typebox";
+
+export const RequestError = Type.Object({
+  message: Type.String(),
+});
+export type RequestError = Static<typeof RequestError>;
 
 export const NotFoundUser = Type.Object({
   message: Type.String(),
@@ -15,5 +20,4 @@ export const BadRequestCreateUserBody = Type.Object({
   //   password: Type.Optional(Type.String()),
   // }),
 });
-
 export const BadRequestUpdateUserBody = BadRequestCreateUserBody;
