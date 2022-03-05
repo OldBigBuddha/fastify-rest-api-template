@@ -2,7 +2,7 @@ import { Type } from "@sinclair/typebox";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller, DELETE, GET, getInstanceByToken, POST, PUT } from "fastify-decorators";
 import UsersService, { UsersServiceToken } from "services/api/v0/users";
-import { paginationQuery, paramUserId, ParamUserId } from "schemas/common";
+import { AuthorizationHeader, authorizationHeader, paginationQuery, paramUserId, ParamUserId } from "schemas/common";
 import { BadRequestCreateUserBody, NotFoundUser } from "schemas/error";
 import {
   CreateUserDataRequest,
@@ -13,6 +13,7 @@ import {
   User,
 } from "schemas/api/v0/user";
 import { toUuid } from "libs/utils/uuid";
+import AppError, { HttpErrorStatus } from "libs/AppError";
 
 @Controller({ route: "/api/v0/users" })
 export default class UsersController {
@@ -53,7 +54,6 @@ export default class UsersController {
     options: {
       schema: {
         body: CreateUserData,
-        querystring: paginationQuery,
         response: {
           201: User,
           400: BadRequestCreateUserBody,
@@ -68,6 +68,33 @@ export default class UsersController {
     const reqBody = request.body;
     const resBody = await this.service.post(reqBody);
     reply.status(201).send(resBody);
+  }
+
+  @GET({
+    url: "/@me",
+    options: {
+      schema: {
+        headers: authorizationHeader,
+        response: {
+          200: User,
+          404: NotFoundUser,
+        },
+      },
+    },
+  })
+  async getMe(
+    request: FastifyRequest<{ Reply: UserResponse; Headers: AuthorizationHeader }>,
+    _: FastifyReply // eslint-disable-line @typescript-eslint/no-unused-vars
+  ): Promise<UserResponse> {
+    const token = getLoginToken(request);
+
+    if (token == null) {
+      AppError.raise(HttpErrorStatus.UNAUTHORIZED, "正しいログイントークンを指定してください。");
+    }
+
+    const resBody = await this.service.getMe(token);
+
+    return resBody;
   }
 
   /**
@@ -151,4 +178,21 @@ export default class UsersController {
 
     reply.status(204).send();
   }
+}
+
+/**
+ * ログイントークンをリクエストから取得する
+ *
+ * @param request リクエスト
+ * @returns ログイントークン
+ */
+function getLoginToken(request: FastifyRequest<{ Headers: AuthorizationHeader }>): string | undefined {
+  const authorization = request.headers["authorization"];
+
+  if (authorization.slice(0, 7) !== "Bearer ") {
+    return undefined;
+  }
+
+  const token = authorization.replace("Bearer ", "");
+  return token;
 }

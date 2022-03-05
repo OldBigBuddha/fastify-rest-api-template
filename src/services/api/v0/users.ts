@@ -1,6 +1,7 @@
 import { Service } from "fastify-decorators";
 
 import UserEntity from "business/entities/UserEntity";
+import * as AuthorizationUsecase from "business/usecases/authorization";
 import * as UserUsecase from "business/usecases/user";
 
 import { Pagination } from "db/helper";
@@ -35,6 +36,20 @@ export default class UsersService {
    */
   async post(data: CreateUserDataRequest): Promise<UserResponse> {
     const user = await UserUsecase.create(data);
+
+    return toResponse(user);
+  }
+
+  /**
+   * GET /@me
+   *
+   * ログイン中のユーザー情報を取得
+   *
+   * @param token ログイントークン（JWT）
+   * @returns ログイン中のユーザー情報
+   */
+  async getMe(token: string): Promise<UserResponse> {
+    const user = await AuthorizationUsecase.verifyByLoginToken(token);
 
     return toResponse(user);
   }

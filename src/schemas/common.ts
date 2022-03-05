@@ -1,5 +1,10 @@
 import { Static, Type } from "@sinclair/typebox";
 
+export const authorizationHeader = Type.Object({
+  authorization: Type.String(),
+});
+export type AuthorizationHeader = Static<typeof authorizationHeader>;
+
 export const paginationQuery = Type.Object({
   perPage: Type.Optional(
     Type.Integer({
