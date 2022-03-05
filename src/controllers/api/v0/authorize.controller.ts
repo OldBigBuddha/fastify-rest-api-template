@@ -27,7 +27,7 @@ export default class AuthorizeController {
       },
     },
   })
-  async health(
+  async post(
     request: FastifyRequest<{ Body: LoginRequestBody; Reply: TokenInfoResponse }>,
     reply: FastifyReply
   ): Promise<void> {
