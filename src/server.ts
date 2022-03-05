@@ -21,16 +21,21 @@ function main(): void {
 
   Repository.init().then(() => {
     // サーバー起動
-    app.listen({ port: config.server.port, host: config.server.host });
+    app.listen({ port: config.server.port, host: config.server.host }, (error) => {
+      if (error != null) {
+        app.log.fatal(error);
+        process.exit(1);
+      }
 
-    // Ctrl+c 用
-    process.on("SIGINT", (signal) => {
-      gracefulShutdown(app.server, signal);
-    });
+      // Ctrl+c 用
+      process.on("SIGINT", (signal) => {
+        gracefulShutdown(app.server, signal);
+      });
 
-    // Docker/K8s 用
-    process.on("SIGTERM", (signal) => {
-      gracefulShutdown(app.server, signal);
+      // Docker/K8s 用
+      process.on("SIGTERM", (signal) => {
+        gracefulShutdown(app.server, signal);
+      });
     });
   });
 }
