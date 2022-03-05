@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller, GET, getInstanceByToken } from "fastify-decorators";
-import HealthService, { HealthServiceToken } from "services/api/health";
+import HealthService, { HealthServiceToken } from "services/health";
 
 @Controller({ route: "/health" })
 export default class HealthController {
