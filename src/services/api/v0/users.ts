@@ -23,7 +23,7 @@ export default class UsersService {
   async get(pagination: Pagination): Promise<UserResponse[]> {
     const users = await UserUsecase.findAll(pagination);
 
-    return users.map(toResponse);
+    return users.map(UserUsecase.toResponse);
   }
 
   /**
@@ -37,7 +37,7 @@ export default class UsersService {
   async post(data: CreateUserDataRequest): Promise<UserResponse> {
     const user = await UserUsecase.create(data);
 
-    return toResponse(user);
+    return UserUsecase.toResponse(user);
   }
 
   /**
@@ -51,7 +51,7 @@ export default class UsersService {
   async getMe(token: string): Promise<UserResponse> {
     const user = await AuthorizationUsecase.verifyByLoginToken(token);
 
-    return toResponse(user);
+    return UserUsecase.toResponse(user);
   }
 
   /**
@@ -65,7 +65,7 @@ export default class UsersService {
   async get$userId(uuid: UUID): Promise<UserResponse> {
     const user = await UserUsecase.findByUuid(uuid);
 
-    return toResponse(user);
+    return UserUsecase.toResponse(user);
   }
 
   /**
@@ -81,7 +81,7 @@ export default class UsersService {
     const user = await UserUsecase.findByUuid(uuid);
     const newUser = await UserUsecase.update(user, data);
 
-    return toResponse(newUser);
+    return UserUsecase.toResponse(newUser);
   }
 
   /**
@@ -108,7 +108,7 @@ export default class UsersService {
 export async function get(pagination: Pagination): Promise<UserResponse[]> {
   const users = await UserUsecase.findAll(pagination);
 
-  return users.map(toResponse);
+  return users.map(UserUsecase.toResponse);
 }
 
 /**
@@ -122,7 +122,7 @@ export async function get(pagination: Pagination): Promise<UserResponse[]> {
 export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
   const user = await UserUsecase.create(data);
 
-  return toResponse(user);
+  return UserUsecase.toResponse(user);
 }
 
 /**
@@ -136,7 +136,7 @@ export async function post(data: CreateUserDataRequest): Promise<UserResponse> {
 export async function get$userId(uuid: UUID): Promise<UserResponse> {
   const user = await UserUsecase.findByUuid(uuid);
 
-  return toResponse(user);
+  return UserUsecase.toResponse(user);
 }
 
 /**
@@ -152,7 +152,7 @@ export async function put$userId(uuid: UUID, data: UpdateUserDataRequest): Promi
   const user = await UserUsecase.findByUuid(uuid);
   const newUser = await UserUsecase.update(user, data);
 
-  return toResponse(newUser);
+  return UserUsecase.toResponse(newUser);
 }
 
 /**
@@ -165,18 +165,4 @@ export async function put$userId(uuid: UUID, data: UpdateUserDataRequest): Promi
 export async function delete$userId(uuid: UUID): Promise<void> {
   const user = await UserUsecase.findByUuid(uuid);
   await UserUsecase.trash(user);
-}
-
-/**
- * レスポンス用の形式へ変換する
- *
- * @param entity ユーザー
- * @returns レスポンス用に整形されたのユーザー情報
- */
-export function toResponse(entity: UserEntity): UserResponse {
-  return {
-    id: entity.uuid.toString(),
-    loginId: entity.loginId,
-    displayName: entity.displayName,
-  };
 }

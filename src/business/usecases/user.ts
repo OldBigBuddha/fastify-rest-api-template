@@ -3,7 +3,7 @@ import UserEntity from "business/entities/UserEntity";
 import { Pagination, toLimitOffset } from "db/helper";
 import * as UseRepository from "infraarchitecture/repositories/UserRepository";
 
-import { CreateUserDataRequest, UpdateUserDataRequest } from "schemas/api/v0/user";
+import { CreateUserDataRequest, UpdateUserDataRequest, UserResponse } from "schemas/api/v0/user";
 
 import { UUID } from "libs/utils/uuid";
 import AppError, { HttpErrorStatus } from "libs/AppError";
@@ -96,4 +96,18 @@ export async function invalidOldLoginToken(user: UserEntity): Promise<void> {
   user.regenerateRnd();
 
   await UseRepository.save(user);
+}
+
+/**
+ * レスポンス用の形式へ変換する
+ *
+ * @param entity ユーザー
+ * @returns レスポンス用に整形されたのユーザー情報
+ */
+export function toResponse(entity: UserEntity): UserResponse {
+  return {
+    id: entity.uuid.toString(),
+    loginId: entity.loginId,
+    displayName: entity.displayName,
+  };
 }
